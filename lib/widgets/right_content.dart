@@ -433,53 +433,63 @@ class _WaitlistCardState extends State<_WaitlistCard>
         MouseRegion(
           onEnter: (_) => setState(() => _btnHovered = true),
           onExit: (_) => setState(() => _btnHovered = false),
-          cursor: _loading
-              ? SystemMouseCursors.basic
-              : SystemMouseCursors.click,
+          cursor: _loading ? SystemMouseCursors.basic : SystemMouseCursors.click,
           child: GestureDetector(
             onTap: _loading ? null : _submit,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: _loading
-                      ? const [Color(0xFF6D28D9), Color(0xFF5B21B6)]
-                      : _btnHovered
-                          ? const [Color(0xFFB794F4), Color(0xFF7C3AED)]
-                          : const [Color(0xFF9F6EF5), Color(0xFF6D28D9)],
-                ),
-                borderRadius: BorderRadius.circular(11),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF7C3AED).withValues(
-                        alpha: _btnHovered ? 0.55 : 0.32),
-                    blurRadius: _btnHovered ? 28 : 16,
-                    spreadRadius: -4,
-                    offset: const Offset(0, 5),
+            child: AnimatedScale(
+              scale: (_btnHovered && !_loading) ? 1.025 : 1.0,
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: _loading
+                        ? const [Color(0xFF6D28D9), Color(0xFF5B21B6)]
+                        : _btnHovered
+                            ? const [Color(0xFFBEA0FF), Color(0xFF8B5CF6)]
+                            : const [Color(0xFF9F6EF5), Color(0xFF6D28D9)],
                   ),
-                ],
-              ),
-              child: Center(
-                child: _loading
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(
-                        'Join Waitlist',
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.2,
-                        ),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF7C3AED)
+                          .withValues(alpha: _btnHovered ? 0.72 : 0.45),
+                      blurRadius: _btnHovered ? 40 : 20,
+                      spreadRadius: _btnHovered ? -1 : -4,
+                      offset: const Offset(0, 4),
+                    ),
+                    if (_btnHovered)
+                      BoxShadow(
+                        color: const Color(0xFFA78BFA).withValues(alpha: 0.25),
+                        blurRadius: 70,
+                        spreadRadius: -10,
+                        offset: const Offset(0, 2),
                       ),
+                  ],
+                ),
+                child: Center(
+                  child: _loading
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          'Join Waitlist',
+                          style: GoogleFonts.inter(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                ),
               ),
             ),
           ),

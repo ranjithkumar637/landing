@@ -46,8 +46,8 @@ class _PhoneShowcaseState extends State<PhoneShowcase>
           final totalH = constraints.maxHeight;
           final totalW = constraints.maxWidth;
 
-          // Each phone height relative to available space
-          final frontH = (totalH * 0.86).clamp(360.0, 640.0);
+          // Each phone height relative to available space (+12% bigger)
+          final frontH = (totalH * 0.96).clamp(400.0, 720.0);
           final frontW = frontH * (260.0 / 530.0); // ~50.9% aspect
           final backH = frontH * 0.88;
           final backW = backH * (260.0 / 530.0);
@@ -62,9 +62,36 @@ class _PhoneShowcaseState extends State<PhoneShowcase>
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
+                // ── Cinematic ambient glow — behind phones ─────────
+                Positioned.fill(
+                  child: Center(
+                    child: Container(
+                      width: totalW * 0.80,
+                      height: totalH * 0.65,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(totalW * 0.4),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF7C3AED)
+                                .withValues(alpha: 0.18),
+                            blurRadius: 130,
+                            spreadRadius: 30,
+                          ),
+                          BoxShadow(
+                            color: const Color(0xFF4C1D95)
+                                .withValues(alpha: 0.12),
+                            blurRadius: 220,
+                            spreadRadius: 70,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
                 // ── Glow pool beneath both phones ─────────────────
                 Positioned(
-                  bottom: totalH * 0.06,
+                  bottom: totalH * 0.04,
                   child: Container(
                     width: frontW + backW + phoneGap + 20,
                     height: 20,
@@ -73,9 +100,9 @@ class _PhoneShowcaseState extends State<PhoneShowcase>
                       boxShadow: [
                         BoxShadow(
                           color: const Color(0xFF7C3AED)
-                              .withValues(alpha: 0.32),
-                          blurRadius: 100,
-                          spreadRadius: 40,
+                              .withValues(alpha: 0.42),
+                          blurRadius: 120,
+                          spreadRadius: 55,
                         ),
                       ],
                     ),

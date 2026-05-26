@@ -21,21 +21,21 @@ class LeftContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         _LabelPill(),
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
         _MainHeading(),
-        const SizedBox(height: 14),
+        const SizedBox(height: 18),
         _SubText(),
-        const SizedBox(height: 22),
+        const SizedBox(height: 26),
 
         // ── Personal Support — the MAIN pitch ────────────────
         _VoiceHeroCard(),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
 
         // ── Supporting features ───────────────────────────────
         _FeatureCard(
-          icon: Icons.person_outline_rounded,
-          title: 'Personalized Awareness',
+          icon: Icons.bolt_rounded,
+          title: 'Trigger Awareness',
           desc:
               'Learns your trigger patterns, emotional states, and dangerous timings so support always feels personal.',
         ),
@@ -93,15 +93,15 @@ class _MainHeading extends StatelessWidget {
       color: Colors.white,
       fontSize: 32,
       fontWeight: FontWeight.w800,
-      height: 1.15,
-      letterSpacing: -0.7,
+      height: 1.28,
+      letterSpacing: -0.8,
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Most people don\'t fail', style: s),
         Text('because they\'re weak.', style: s),
-        const SizedBox(height: 5),
+        const SizedBox(height: 8),
         RichText(
           text: TextSpan(children: [
             TextSpan(
@@ -110,7 +110,19 @@ class _MainHeading extends StatelessWidget {
             ),
             TextSpan(
               text: 'alone.',
-              style: s.copyWith(color: const Color(0xFFA78BFA)),
+              style: s.copyWith(
+                color: const Color(0xFFA78BFA),
+                shadows: [
+                  Shadow(
+                    color: const Color(0xFF7C3AED).withValues(alpha: 0.90),
+                    blurRadius: 18,
+                  ),
+                  Shadow(
+                    color: const Color(0xFFA78BFA).withValues(alpha: 0.55),
+                    blurRadius: 42,
+                  ),
+                ],
+              ),
             ),
           ]),
         ),
@@ -131,16 +143,27 @@ class _SubText extends StatelessWidget {
           style: GoogleFonts.inter(
             color: const Color(0xFF94A3B8),
             fontSize: 13,
-            height: 1.65,
+            height: 1.6,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 9),
         Text(
-          'The hardest moment is right when the urge hits —\nwhen emotions take over and the mind goes on autopilot.',
+          'The hardest moment is when urges hit, emotions take over,\nand the mind goes on autopilot.',
           style: GoogleFonts.inter(
             color: const Color(0xFF566175),
             fontSize: 13,
             height: 1.65,
+          ),
+        ),
+        const SizedBox(height: 9),
+        Text(
+          'This app focuses on awareness, recovery, and real control.',
+          style: GoogleFonts.inter(
+            color: const Color(0xFF6D5A8A),
+            fontSize: 13,
+            height: 1.6,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
