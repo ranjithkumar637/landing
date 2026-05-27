@@ -8,7 +8,8 @@ const _journeyScreen =
     'assets/ChatGPT Image May 26, 2026, 03_48_22 PM.png';
 
 class PhoneShowcase extends StatefulWidget {
-  const PhoneShowcase({super.key});
+  final bool mobile;
+  const PhoneShowcase({super.key, this.mobile = false});
 
   @override
   State<PhoneShowcase> createState() => _PhoneShowcaseState();
@@ -41,6 +42,8 @@ class _PhoneShowcaseState extends State<PhoneShowcase>
         final t = _float.value * 2 * math.pi;
         final y1 = math.sin(t) * 10.0;
         final y2 = math.sin(t + math.pi * 0.45) * 8.0;
+
+        if (widget.mobile) return _buildMobile(y1);
 
         return LayoutBuilder(builder: (ctx, constraints) {
           final totalH = constraints.maxHeight;
@@ -171,5 +174,73 @@ class _PhoneShowcaseState extends State<PhoneShowcase>
         });
       },
     );
+  }
+
+  // ── Single centred phone for mobile ──────────────
+  Widget _buildMobile(double y1) {
+    return LayoutBuilder(builder: (ctx, constraints) {
+      final totalH = constraints.maxHeight;
+      final totalW = constraints.maxWidth;
+
+      final phoneW = (totalW * 0.58).clamp(160.0, 240.0);
+      final phoneH = (phoneW * (530.0 / 260.0)).clamp(0.0, totalH * 0.94);
+
+      return Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          // Ambient glow
+          Container(
+            width: phoneW * 1.6,
+            height: phoneH * 0.45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(phoneW),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF7C3AED).withValues(alpha: 0.22),
+                  blurRadius: 110,
+                  spreadRadius: 24,
+                ),
+              ],
+            ),
+          ),
+
+          // Ground glow
+          Positioned(
+            bottom: totalH * 0.03,
+            child: Container(
+              width: phoneW + 16,
+              height: 10,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF7C3AED).withValues(alpha: 0.45),
+                    blurRadius: 80,
+                    spreadRadius: 38,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Single phone — centred, gently floating
+          Transform.translate(
+            offset: Offset(0, y1),
+            child: PhoneFrame(
+              width: phoneW,
+              height: phoneH,
+              glowColor: const Color(0xFF7C3AED),
+              child: Image.asset(
+                _homeScreen,
+                width: 390,
+                height: 844,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

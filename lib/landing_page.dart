@@ -33,9 +33,13 @@ class _LandingPageState extends State<LandingPage> {
     await prefs.setBool('visit_logged', true); // never count again
   }
 
+  static const double _kMobileBreak = 800.0;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isMobile = size.width < _kMobileBreak;
+
     return Scaffold(
       backgroundColor: const Color(0xFF07070F),
       body: SizedBox(
@@ -44,29 +48,59 @@ class _LandingPageState extends State<LandingPage> {
         child: Stack(
           children: [
             const AnimatedBg(),
-            Column(
-              children: [
-                const TopNavbar(),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(44, 0, 44, 12),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Expanded(flex: 27, child: LeftContent()),
-                        SizedBox(width: 24),
-                        Expanded(flex: 44, child: PhoneShowcase()),
-                        SizedBox(width: 24),
-                        Expanded(flex: 29, child: RightContent()),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            isMobile ? _buildMobile() : _buildDesktop(),
           ],
         ),
       ),
+    );
+  }
+
+  // ── Desktop — 3-column fixed layout ──────────────
+  Widget _buildDesktop() {
+    return Column(
+      children: [
+        const TopNavbar(),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(44, 0, 44, 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Expanded(flex: 27, child: LeftContent()),
+                SizedBox(width: 24),
+                Expanded(flex: 44, child: PhoneShowcase()),
+                SizedBox(width: 24),
+                Expanded(flex: 29, child: RightContent()),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ── Mobile — scrollable vertical stack ───────────
+  Widget _buildMobile() {
+    return Column(
+      children: [
+        const TopNavbar(),
+        Expanded(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(20, 28, 20, 48),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: const [
+                LeftContent(mobile: true),
+                SizedBox(height: 32),
+                SizedBox(height: 420, child: PhoneShowcase(mobile: true)),
+                SizedBox(height: 32),
+                RightContent(mobile: true),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

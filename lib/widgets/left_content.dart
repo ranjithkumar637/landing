@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LeftContent extends StatelessWidget {
-  const LeftContent({super.key});
+  final bool mobile;
+  const LeftContent({super.key, this.mobile = false});
 
   @override
   Widget build(BuildContext context) {
+    if (mobile) return _body();
     return LayoutBuilder(
       builder: (_, constraints) => FittedBox(
         fit: BoxFit.scaleDown,

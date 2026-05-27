@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RightContent extends StatelessWidget {
-  const RightContent({super.key});
+  final bool mobile;
+  const RightContent({super.key, this.mobile = false});
 
   @override
   Widget build(BuildContext context) {
+    if (mobile) return _body();
     return LayoutBuilder(
       builder: (_, constraints) => FittedBox(
         fit: BoxFit.scaleDown,

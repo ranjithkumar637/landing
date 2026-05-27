@@ -21,7 +21,9 @@ class TopNavbar extends StatelessWidget {
               ),
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 44),
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width < 800 ? 20 : 44,
+          ),
           child: Row(
             children: [
               // Subtle dot mark — no text name
